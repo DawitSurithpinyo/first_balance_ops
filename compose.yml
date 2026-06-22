@@ -1,0 +1,54 @@
+services:
+  front:
+    depends_on:
+      - back
+    image: dawit5849/front:latest
+    container_name: front
+    networks:
+      - public
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/letsencrypt/:ro
+    restart: unless-stopped
+
+  back:
+    depends_on:
+      - redis
+    image: dawit5849/back:latest
+    container_name: back
+    env_file:
+      - .env
+    networks:
+      - public
+      - isolated
+    volumes:
+      - ./config/google_client_secret.json:/app/config/google_client_secret.json:ro
+    restart: unless-stopped
+
+  redis:
+    image: dawit5849/redis:latest
+    container_name: redis
+    networks:
+      - isolated
+    volumes:
+      - redis_data:/data:rw
+    restart: unless-stopped
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+
+volumes:
+  redis_data:
+
+networks:
+  isolated:
+    driver: bridge
+    internal: true
+  public:
+    driver: bridge
