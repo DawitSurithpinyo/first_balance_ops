@@ -1,0 +1,50 @@
+services:
+  front:
+    build:
+      context: ../../front_end
+      dockerfile: ./Dockerfile.dev
+    depends_on:
+      - back
+    container_name: front
+    networks:
+      - public
+    ports:
+      - "4173:4173"
+    restart: unless-stopped
+
+  back:
+    build:
+      context: ../../back_end
+      dockerfile: ./Dockerfile.back
+    depends_on:
+      - redis
+    container_name: back
+    env_file:
+      - .env.dev
+    networks:
+      - public
+      - isolated
+    volumes:
+      - ./config/google_client_secret.json:/app/config/google_client_secret.json:ro
+    restart: unless-stopped
+
+  redis:
+    build:
+      context: ../../back_end
+      dockerfile: ./Dockerfile.redis
+    container_name: redis
+    networks:
+      - isolated
+    volumes:
+      - redis_data:/data:rw
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+
+networks:
+  isolated:
+    driver: bridge
+    internal: true
+  public:
+    driver: bridge
