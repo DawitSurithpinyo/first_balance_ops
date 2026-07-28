@@ -5,6 +5,7 @@
   - [Tech stack](#tech-stack)
 - [About this repository](#about-this-repository)
   - [Folder structure](#folder-structure)
+  - [Future improvements](#future-improvements)
 
 ## Project description
 First balance ([firstbalance.net](https://firstbalance.net)) is my little personal project, a web application for managing personal finance records. 
@@ -67,6 +68,7 @@ Likewise, the `production` folder mimics the actual folder structure used inside
 ```
 (Obviously, the `.env` file is ignored by Git)
 
+### Future improvements
 Planned improvements include:
 - Monitoring
 - Automation on infrastructure setups
