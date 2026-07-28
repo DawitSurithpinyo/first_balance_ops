@@ -34,7 +34,7 @@ services:
     networks:
       - isolated
     volumes:
-      - redis_data:/data:rw
+      - fb_redis_data:/data:rw
     restart: unless-stopped
 
   certbot:
@@ -44,7 +44,7 @@ services:
       - ./certbot/conf/:/etc/letsencrypt/:rw
 
 volumes:
-  redis_data:
+  fb_redis_data:
 
 networks:
   isolated:
