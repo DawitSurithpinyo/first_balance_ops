@@ -15,7 +15,7 @@ services:
   back:
     build:
       context: ../../back_end
-      dockerfile: ./Dockerfile.back
+      dockerfile: ./Dockerfile
     depends_on:
       - redis
     container_name: back
